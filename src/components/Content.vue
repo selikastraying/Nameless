@@ -1,19 +1,17 @@
 <template>
-  <div class="d-flex-column w-100 h-100">
-    <NavBar />
+  <div style="height: 90%">
     <Chat />
   </div>
 </template>
 
 <script>
 import Chat from '@/components/Chat'
-import NavBar from '@/components/NavBar'
 
 export default {
-  name: 'Home',
   components: {
     Chat,
-    NavBar,
   },
 }
 </script>
+
+<style></style>
