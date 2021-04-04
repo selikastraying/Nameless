@@ -3,6 +3,11 @@
   <router-view />
 </template>
 
+<script>
+let vh = window.innerHeight * 0.01
+document.documentElement.style.setProperty('--vh', `${vh}px`)
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -11,6 +16,7 @@
   text-align: center;
   color: #2c3e50;
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 #nav {

@@ -11,10 +11,10 @@ const apiClient = axios.create({
 })
 
 export default {
-  sentpic(pic, id, chatid) {
+  sentpic(pic, token, chatid) {
     const formData = new FormData()
     formData.append('file', pic)
-    formData.append('id', id)
+    formData.append('token', token)
     formData.append('chatid', chatid)
     return apiClient
       .post('/upload', formData)
@@ -88,7 +88,7 @@ export default {
         return res.data
       })
       .catch((error) => {
-        console.log(error)
+        throw error
       })
   },
   register(id, pass) {
@@ -100,7 +100,7 @@ export default {
         return res.data
       })
       .catch((error) => {
-        console.log(error)
+        throw error
       })
   },
 }

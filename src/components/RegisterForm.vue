@@ -17,7 +17,7 @@
       placeholder="Password"
       v-model="pass"
     />
-    <button type="submit" class="btn btn-primary my-3" @click="login">
+    <button type="submit" class="btn btn-primary my-3" @click="register">
       Submit
     </button>
   </div>
@@ -38,9 +38,15 @@ export default {
     return {
       id,
       pass,
-      login: () => {
-        store.dispatch('chat/register', { id: id.value, pass: pass.value })
-        router.push('/Home')
+      register: () => {
+        store
+          .dispatch('chat/register', { id: id.value, pass: pass.value })
+          .then(() => {
+            router.push('/Home')
+          })
+          .catch(() => {
+            alert('register failed')
+          })
       },
     }
   },

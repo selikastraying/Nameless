@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex my-3" style="height: 10%">
-    <div class="mx-3">
+  <div class="d-flex my-3" style="height: 10%; min-height: 5%">
+    <div class="d-flex mx-3">
       <label class="h-75 my-auto" for="file">
         <img class="h-100" src="@/assets/image.svg" alt="" />
         <!-- <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
@@ -14,16 +14,20 @@
         @change="change"
       />
     </div>
-    <img class="mh-100" :src="file" alt="" @load="imgload" />
-    <button class="mx-3" @click="sentpic" v-if="file != undefined">Sent</button>
+    <div class="flex-fill h-100" v-if="fileurl != undefined">
+      <img class="h-100" :src="fileurl" alt="" @load="imgload" />
+    </div>
+    <button class="mx-3" @click="sentpic" v-if="fileurl != undefined">
+      Sent
+    </button>
     <!-- <input class="mr-3" type="text" v-model="filename" /> -->
     <input
       type="text"
       class="flex-fill"
       v-model="newchat"
-      v-if="file == undefined"
+      v-if="fileurl == undefined"
     />
-    <button class="mx-3" @click="sent" v-if="file == undefined">Sent</button>
+    <button class="mx-3" @click="sent" v-if="fileurl == undefined">Sent</button>
   </div>
 </template>
 
@@ -36,21 +40,25 @@ export default {
   setup() {
     const store = useStore()
     let file = ref()
+    let fileurl = ref()
     let newchat = ref('')
     const reader = new FileReader()
     reader.onload = (e) => {
       let img = new Image()
       img.onload = (e) => {
         if (e.target.width > 1000) alert('over max width 1000')
-        else file.value = e.target.src
+        else {
+          fileurl.value = e.target.src
+        }
       }
       img.src = e.target.result
     }
 
     return {
-      file,
+      fileurl,
       newchat,
       change: (event) => {
+        file.value = event.target.files[event.target.files.length - 1]
         reader.readAsDataURL(event.target.files[0])
       },
       imgload: (e) => {
@@ -64,7 +72,11 @@ export default {
         )
       },
       sentpic: () => {
-        NetService.sentpic(file.value).then((res) => {
+        NetService.sentpic(
+          file.value,
+          store.state.chat.token,
+          store.state.chat.chatid
+        ).then((res) => {
           console.log(res)
         })
       },

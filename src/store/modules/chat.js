@@ -30,16 +30,24 @@ export const mutations = {
 
 export const actions = {
   login({ commit }, { id, pass }) {
-    NetServices.login(id, pass).then((token) => {
-      commit('SET_NAME', id)
-      commit('SET_TOKEN', token)
-    })
+    return NetServices.login(id, pass)
+      .then((token) => {
+        commit('SET_NAME', id)
+        commit('SET_TOKEN', token)
+      })
+      .catch((error) => {
+        throw error
+      })
   },
   register({ commit }, { id, pass }) {
-    NetServices.register(id, pass).then((token) => {
-      commit('SET_NAME', id)
-      commit('SET_TOKEN', token)
-    })
+    return NetServices.register(id, pass)
+      .then((token) => {
+        commit('SET_NAME', id)
+        commit('SET_TOKEN', token)
+      })
+      .catch((error) => {
+        throw error
+      })
   },
   updateChatList({ state, commit }) {
     NetServices.getChatList(state.token).then((chatlist) => {

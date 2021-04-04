@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import Chat from '@/components/Chat'
 import NavBar from '@/components/NavBar'
 
@@ -14,6 +16,11 @@ export default {
   components: {
     Chat,
     NavBar,
+  },
+  setup() {
+    const store = useStore()
+    const router = useRouter()
+    if (store.state.chat.token == null) router.push('/')
   },
 }
 </script>

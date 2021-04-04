@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column justify-content-end" style="height: 90%">
+  <div class="d-flex flex-column justify-content-end" style="height: 95%">
     <ChatList :chatlist="chatlist" v-if="false" />
     <ChatContent :chatcontent="chatcontent" />
     <NewChat />

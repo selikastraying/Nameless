@@ -39,8 +39,14 @@ export default {
       id,
       pass,
       login: () => {
-        store.dispatch('chat/login', { id: id.value, pass: pass.value })
-        router.push('/Home')
+        store
+          .dispatch('chat/login', { id: id.value, pass: pass.value })
+          .then(() => {
+            router.push('/Home')
+          })
+          .catch(() => {
+            console.log('login failed')
+          })
       },
     }
   },
