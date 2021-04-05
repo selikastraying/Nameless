@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex-column w-100 h-100">
+  <div class="d-flex-column w-100 h-100 bg">
     <NavBar />
     <Chat />
   </div>

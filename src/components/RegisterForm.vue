@@ -1,12 +1,12 @@
 <template>
-  <div class="mt-3 mx-3">
-    <h1>Register</h1>
-    <label class="my-3" for="id">id</label>
+  <div>
+    <h1>Nameless</h1>
+    <label class="my-3" for="id">Name</label>
     <input
       type="text"
       class="form-control my-3"
       id="id"
-      placeholder="Enter id"
+      placeholder="Enter Name"
       v-model="id"
     />
     <label class="my-3" for="Password">Password</label>
@@ -18,7 +18,7 @@
       v-model="pass"
     />
     <button type="submit" class="btn btn-primary my-3" @click="register">
-      Submit
+      Register
     </button>
   </div>
 </template>

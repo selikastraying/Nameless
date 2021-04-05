@@ -1,8 +1,11 @@
 <template>
-  <div class="d-flex flex-column justify-content-end" style="height: 95%">
-    <ChatList :chatlist="chatlist" v-if="false" />
-    <ChatContent :chatcontent="chatcontent" />
-    <NewChat />
+  <div
+    class="d-flex flex-column justify-content-end w-100 mx-auto panel"
+    style="height: 92%; max-width: 1000px"
+  >
+    <ChatList :chatlist="chatlist" v-if="chatid == ''" />
+    <ChatContent :chatcontent="chatcontent" v-if="chatid != ''" />
+    <NewChat v-if="chatid != ''" />
   </div>
 </template>
 
@@ -28,7 +31,9 @@ export default {
       // store.dispatch('chat/login', 'selina')
       timeid = setInterval(() => {
         store.dispatch('chat/updateChatList')
-        store.dispatch('chat/updateChatContent')
+        if (store.state.chat.chatid != '')
+          store.dispatch('chat/updateChatContent')
+        else store.dispatch('chat/clearChatContent')
       }, 100)
     })
 
@@ -37,6 +42,7 @@ export default {
     })
 
     return {
+      chatid: computed(() => store.state.chat.chatid),
       chatlist: computed(() => store.state.chat.chatlist),
       chatcontent: computed(() => store.state.chat.chatcontent),
     }
@@ -44,4 +50,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped></style>

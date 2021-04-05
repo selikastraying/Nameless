@@ -1,26 +1,27 @@
 <template>
-  <div class="d-flex-column w-100 h-100">
-    <NavBar />
-    <LoginForm v-if="isLogin" />
-    <a class="mt-3" href="#" @click="isLogin = !isLogin" v-if="isLogin">
-      New Account?
-    </a>
-    <RegisterForm v-if="!isLogin" />
-    <a class="mt-3" href="#" @click="isLogin = !isLogin" v-if="!isLogin">
-      Already Registed?
-    </a>
+  <div class="d-flex flex-column w-100 h-100 bg">
+    <div class="my-auto px-3">
+      <div class="mb-3 mx-auto w-100 border-bottom" style="max-width: 1000px">
+        <LoginForm v-if="isLogin" />
+        <RegisterForm v-if="!isLogin" />
+      </div>
+      <a class="mt-3" href="#" @click="isLogin = !isLogin" v-if="isLogin">
+        New Account?
+      </a>
+      <a class="mt-3" href="#" @click="isLogin = !isLogin" v-if="!isLogin">
+        Already Registed?
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar'
 import LoginForm from '@/components/LoginForm'
 import RegisterForm from '@/components/RegisterForm'
 
 export default {
   components: {
     LoginForm,
-    NavBar,
     RegisterForm,
   },
   setup() {

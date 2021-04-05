@@ -1,6 +1,12 @@
 <template>
-  <div class="navbar navbar-expand navbar-light bg-light" style="height: 5%">
-    <a class="navbar-brand" href="#">NameLess</a>
+  <div
+    class="navbar navbar-expand navbar-light panel mx-auto border-bottom"
+    style="height: 8%; max-width: 1000px"
+  >
+    <a class="navbar-brand" href="#" @click="toList" v-if="chatid != ''">
+      ←Back
+    </a>
+    <a class="navbar-brand" href="#" v-if="chatid == ''">Nameless</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
@@ -13,7 +19,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Dropdown
+            {{ id }}
           </a>
           <div
             class="dropdown-menu dropdown-menu-right"
@@ -31,6 +37,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -41,9 +48,14 @@ export default {
 
     return {
       logout: () => {
-        store.dispatch('chat/resetstate')
+        store.dispatch('chat/resetState')
         router.push('/')
       },
+      toList: () => {
+        store.dispatch('chat/updateChatId', '')
+      },
+      chatid: computed(() => store.state.chat.chatid),
+      id: computed(() => store.state.chat.name),
     }
   },
 }

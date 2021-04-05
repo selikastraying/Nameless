@@ -1,8 +1,8 @@
 <template>
-  <div class="d-flex my-3" style="height: 10%; min-height: 5%">
+  <div class="d-flex my-3" style="height: 5%; min-height: 5%">
     <div class="d-flex mx-3">
-      <label class="h-75 my-auto" for="file">
-        <img class="h-100" src="@/assets/image.svg" alt="" />
+      <label class="d-flex h-100" for="file">
+        <img class="h-50 my-auto" src="@/assets/image.svg" alt="" />
         <!-- <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
       </label>
       <input
@@ -23,11 +23,18 @@
     <!-- <input class="mr-3" type="text" v-model="filename" /> -->
     <input
       type="text"
-      class="flex-fill"
+      class="input-group-text flex-fill text-left"
       v-model="newchat"
       v-if="fileurl == undefined"
     />
-    <button class="mx-3" @click="sent" v-if="fileurl == undefined">Sent</button>
+    <button
+      class="btn btn-primary mx-2"
+      @click="sent"
+      v-if="fileurl == undefined"
+      :disabled="newchat == ''"
+    >
+      <p class="my-auto" style="line-height: 80%">Sent</p>
+    </button>
   </div>
 </template>
 

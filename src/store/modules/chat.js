@@ -6,7 +6,7 @@ export const state = {
   name: '',
   token: null,
   chatlist: [],
-  chatid: '00000001',
+  chatid: '',
   chatcontent: [],
 }
 
@@ -61,6 +61,9 @@ export const actions = {
     NetServices.getChatContent(state.chatid).then((chatcontent) => {
       commit('SET_CHATCONTENT', chatcontent.chat)
     })
+  },
+  clearChatContent({ commit }) {
+    commit('SET_CHATCONTENT', [])
   },
   resetState({ commit }) {
     commit('SET_NAME', '')

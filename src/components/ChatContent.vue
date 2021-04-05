@@ -2,27 +2,31 @@
   <div class="d-flex flex-column-reverse px-3 overflow-auto noscrollbar">
     <div class="my-3" v-for="chat in reversechatcontent" :key="chat.id">
       <div class="d-flex justify-content-end" v-if="chat.name == name">
-        <span class="border rounded-pill" v-if="!chat.pic">
-          {{ chat.content }}
-        </span>
-        <img
-          style="width: 100px"
-          :src="`${baseURL}${chat.pic}`"
-          alt=""
-          v-if="chat.pic"
-        />
+        <div>
+          <p class="border rounded-pill p-2 bg-light" v-if="!chat.pic">
+            {{ chat.content }}
+          </p>
+          <img
+            style="width: 100px"
+            :src="`${baseURL}${chat.pic}`"
+            alt=""
+            v-if="chat.pic"
+          />
+        </div>
       </div>
       <div class="d-flex justify-content-start" v-if="chat.name != name">
-        <span>{{ chat.name }}</span>
-        <span class="border rounded-pill" v-if="!chat.pic">
-          {{ chat.content }}
-        </span>
-        <img
-          style="width: 100px"
-          :src="`${baseURL}${chat.pic}`"
-          alt=""
-          v-if="chat.pic"
-        />
+        <div>
+          <p class="text-left mb-0">{{ chat.name }}</p>
+          <p class="border rounded-pill p-2 bg-light" v-if="!chat.pic">
+            {{ chat.content }}
+          </p>
+          <img
+            style="width: 100px"
+            :src="`${baseURL}${chat.pic}`"
+            alt=""
+            v-if="chat.pic"
+          />
+        </div>
       </div>
     </div>
   </div>
