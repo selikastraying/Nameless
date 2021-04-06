@@ -17,7 +17,12 @@
       placeholder="Password"
       v-model="pass"
     />
-    <button type="submit" class="btn btn-primary my-3" @click="register">
+    <button
+      type="submit"
+      class="btn btn-primary my-3"
+      @click="register"
+      :disabled="id == '' || pass == ''"
+    >
       Register
     </button>
   </div>

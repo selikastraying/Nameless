@@ -47,7 +47,7 @@ export default {
   },
   setup(props) {
     const store = useStore()
-    const baseURL = 'http://192.168.0.12:3000/img/'
+    const baseURL = 'http://18.183.223.127:3000/img/'
     return {
       baseURL,
       reversechatcontent: computed(() => props.chatcontent.slice().reverse()),
