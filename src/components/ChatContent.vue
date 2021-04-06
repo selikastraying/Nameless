@@ -17,7 +17,10 @@
       <div class="d-flex justify-content-start" v-if="chat.name != name">
         <div>
           <p class="text-left mb-0">{{ chat.name }}</p>
-          <p class="border rounded-pill p-2 bg-light" v-if="!chat.pic">
+          <p
+            class="border rounded-pill p-2 bg-light"
+            v-if="!chat.pic & (chat.id != '0')"
+          >
             {{ chat.content }}
           </p>
           <img

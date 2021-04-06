@@ -22,7 +22,7 @@ export default {
         return res.data
       })
       .catch((error) => {
-        console.error(error)
+        throw error
       })
   },
   getToken(id) {
@@ -32,7 +32,7 @@ export default {
         return res.data
       })
       .catch((error) => {
-        console.log(error)
+        throw error
       })
   },
   getChatList(token) {
@@ -42,7 +42,17 @@ export default {
         return res.data
       })
       .catch((error) => {
-        console.log(error)
+        throw error
+      })
+  },
+  getAllChatList() {
+    return apiClient
+      .get('getAllChatList')
+      .then((res) => {
+        return res.data
+      })
+      .catch((error) => {
+        throw error
       })
   },
   getChatContent(chatid) {
@@ -52,7 +62,7 @@ export default {
         return res.data
       })
       .catch((error) => {
-        console.log(error)
+        throw error
       })
   },
   sentChat(token, chatid, newchat) {
@@ -64,19 +74,31 @@ export default {
         return res.data
       })
       .catch((error) => {
-        console.log(error)
+        throw error
       })
   },
-  createChat(token, newchat) {
+  joinChat(token, chatid, chatname) {
     return apiClient
-      .get('createChat', {
-        params: { token: token, newchat: newchat },
+      .get('joinChat', {
+        params: { token: token, chatid: chatid, chatname: chatname },
       })
       .then((res) => {
         return res.data
       })
       .catch((error) => {
-        console.log(error)
+        throw error
+      })
+  },
+  createChat(token, chatname) {
+    return apiClient
+      .get('createChat', {
+        params: { token: token, chatname: chatname },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch((error) => {
+        throw error
       })
   },
   login(id, pass) {

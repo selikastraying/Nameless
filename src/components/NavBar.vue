@@ -3,10 +3,21 @@
     class="navbar navbar-expand navbar-light panel mx-auto border-bottom"
     style="height: 8%; max-width: 1000px"
   >
-    <a class="navbar-brand" href="#" @click="toList" v-if="chatid != ''">
+    <a
+      class="navbar-brand"
+      href="#"
+      @click="toList"
+      v-if="chatid != '' || allchatlist.length != 0"
+    >
       ←Back
     </a>
-    <a class="navbar-brand" href="#" v-if="chatid == ''">Nameless</a>
+    <a
+      class="navbar-brand"
+      href="#"
+      v-if="(chatid == '') & (allchatlist.length == 0)"
+    >
+      Nameless
+    </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
@@ -53,8 +64,10 @@ export default {
       },
       toList: () => {
         store.dispatch('chat/updateChatId', '')
+        store.dispatch('chat/clearAllChatList')
       },
       chatid: computed(() => store.state.chat.chatid),
+      allchatlist: computed(() => store.state.chat.allchatlist),
       id: computed(() => store.state.chat.name),
     }
   },

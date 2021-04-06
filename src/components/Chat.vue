@@ -28,7 +28,6 @@ export default {
     let timeid = null
 
     onMounted(() => {
-      // store.dispatch('chat/login', 'selina')
       timeid = setInterval(() => {
         store.dispatch('chat/updateChatList')
         if (store.state.chat.chatid != '')

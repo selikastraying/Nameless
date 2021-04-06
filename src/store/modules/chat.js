@@ -6,6 +6,7 @@ export const state = {
   name: '',
   token: null,
   chatlist: [],
+  allchatlist: [],
   chatid: '',
   chatcontent: [],
 }
@@ -19,6 +20,9 @@ export const mutations = {
   },
   SET_CHATLIST(state, chatlist) {
     state.chatlist = chatlist
+  },
+  SET_ALLCHATLIST(state, allchatlist) {
+    state.allchatlist = allchatlist
   },
   SET_CHATID(state, chatid) {
     state.chatid = chatid
@@ -54,6 +58,11 @@ export const actions = {
       commit('SET_CHATLIST', chatlist)
     })
   },
+  updateAllChatList({ commit }) {
+    NetServices.getAllChatList().then((allchatlist) => {
+      commit('SET_ALLCHATLIST', allchatlist)
+    })
+  },
   updateChatId({ commit }, chatid) {
     commit('SET_CHATID', chatid)
   },
@@ -62,8 +71,21 @@ export const actions = {
       commit('SET_CHATCONTENT', chatcontent.chat)
     })
   },
+  joinChat({ state, commit }, { chatid, chatname }) {
+    NetServices.joinChat(state.token, chatid, chatname).then(() => {
+      commit('SET_CHATID', chatid)
+    })
+  },
   clearChatContent({ commit }) {
     commit('SET_CHATCONTENT', [])
+  },
+  clearAllChatList({ commit }) {
+    commit('SET_ALLCHATLIST', [])
+  },
+  createChat({ state, commit }, chatname) {
+    NetServices.createChat(state.token, chatname).then((chatid) => {
+      commit('SET_CHATID', chatid)
+    })
   },
   resetState({ commit }) {
     commit('SET_NAME', '')
