@@ -35,7 +35,7 @@ export default {
   },
   setup() {
     const store = useStore()
-    const socket = new SocketIO('http://localhost:3000')
+    const socket = new SocketIO('http://18.183.223.127:3000')
 
     socket.on('allMessage', function (message) {
       console.log(message)
@@ -60,7 +60,7 @@ export default {
         socket.emit('sentMessage', {
           room: store.state.chat.chatid,
           message: {
-            name: 'selika',
+            name: store.state.chat.name,
             content: newchat,
           },
         })
@@ -69,7 +69,7 @@ export default {
         socket.emit('sentMessage', {
           room: store.state.chat.chatid,
           message: {
-            name: 'selika',
+            name: store.state.chat.name,
             pic: pic,
           },
         })
