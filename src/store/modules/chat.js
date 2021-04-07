@@ -87,6 +87,9 @@ export const actions = {
   resetState({ commit }) {
     commit('SET_NAME', '')
     commit('SET_TOKEN', null)
+    commit('SET_CHATID', '')
+    commit('SET_CHATCONTENT', [])
+    commit('SET_ALLCHATLIST', [])
   },
 }
 
