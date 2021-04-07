@@ -38,11 +38,9 @@ export default {
     const socket = new SocketIO('http://18.183.223.127:3000')
 
     socket.on('allMessage', function (message) {
-      console.log(message)
       store.dispatch('chat/updateChatContent', message)
     })
     socket.on('newMessage', function (message) {
-      console.log(message)
       store.dispatch('chat/addChatContent', message)
     })
     socket.on('AllChatList', function (message) {
