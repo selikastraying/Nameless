@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: 'http://18.183.223.127:3000',
+  baseURL: 'http://192.168.0.12:3000',
   withCredentials: false,
   // headers: {
   //   Accept: 'application/json',
@@ -65,22 +65,10 @@ export default {
         throw error
       })
   },
-  sentChat(token, chatid, newchat) {
-    return apiClient
-      .get('sentChat', {
-        params: { token: token, chatid: chatid, newchat: newchat },
-      })
-      .then((res) => {
-        return res.data
-      })
-      .catch((error) => {
-        throw error
-      })
-  },
-  joinChat(token, chatid, chatname) {
+  joinChat(token, chatid) {
     return apiClient
       .get('joinChat', {
-        params: { token: token, chatid: chatid, chatname: chatname },
+        params: { token: token, chatid: chatid },
       })
       .then((res) => {
         return res.data

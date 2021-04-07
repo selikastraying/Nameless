@@ -53,7 +53,7 @@ import { useStore } from 'vuex'
 import NetService from '@/services/NetServices'
 
 export default {
-  setup() {
+  setup(props, { emit }) {
     const store = useStore()
     let file = ref()
     let fileurl = ref()
@@ -78,22 +78,21 @@ export default {
         reader.readAsDataURL(event.target.files[0])
       },
       sent: () => {
-        NetService.sentChat(
-          store.state.chat.token,
-          store.state.chat.chatid,
-          newchat.value
-        ).catch(() => {
-          alert('something failed, please try again')
-        })
+        emit('sentchat', newchat.value)
       },
       sentpic: () => {
         NetService.sentpic(
           file.value,
           store.state.chat.token,
           store.state.chat.chatid
-        ).catch(() => {
-          alert('something failed, please try again')
-        })
+        )
+          .then((path) => {
+            emit('sentpic', path)
+            fileurl.value = undefined
+          })
+          .catch(() => {
+            alert('something failed, please try again')
+          })
       },
     }
   },

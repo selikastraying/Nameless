@@ -8,11 +8,11 @@
       <ul class="list-group flex-fill overflow-auto noscrollbar">
         <li
           class="list-group-item list-group-item-action"
-          v-for="chat in allchatlist"
-          :key="chat.id"
-          @click="joinChat(chat.id, chat.name)"
+          v-for="(chatid, index) in allchatlist"
+          :key="index"
+          @click="joinChat(chatid)"
         >
-          {{ chat.name }}
+          {{ chatid }}
         </li>
       </ul>
     </div>
@@ -53,11 +53,11 @@
       <ul class="list-group flex-fill overflow-auto noscrollbar">
         <li
           class="list-group-item list-group-item-action"
-          v-for="chat in chatlist"
-          :key="chat.id"
+          v-for="(chat, index) in chatlist"
+          :key="index"
           @click="updateChatId(chat.id)"
         >
-          {{ chat.name }}
+          {{ chat.id }}
         </li>
       </ul>
     </div>
@@ -74,22 +74,26 @@ export default {
       type: Object,
     },
   },
-  setup() {
+  setup(props, { emit }) {
     let chatname = ref('')
     const store = useStore()
     return {
       chatname,
       allchatlist: computed(() => store.state.chat.allchatlist),
       updateChatId: (chatid) => {
-        store.dispatch('chat/updateChatId', chatid)
+        emit('update', chatid)
       },
       updateAllChatList: () => {
-        store.dispatch('chat/updateAllChatList')
+        emit('AllChatList')
       },
-      joinChat: (chatid, chatname) => {
-        store.dispatch('chat/joinChat', { chatid: chatid, chatname: chatname })
+      joinChat: (chatid) => {
+        store.dispatch('chat/joinChat', chatid)
+        emit('update', chatid)
       },
-      createChat: () => store.dispatch('chat/createChat', chatname.value),
+      createChat: () => {
+        emit('createChat', chatname.value)
+        store.dispatch('chat/joinChat', chatname.value)
+      },
     }
   },
 }

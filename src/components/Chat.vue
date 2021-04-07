@@ -1,11 +1,18 @@
 <template>
+  <NavBar @update="updateChatId" />
   <div
     class="d-flex flex-column justify-content-end w-100 mx-auto panel"
     style="height: 92%; max-width: 1000px"
   >
-    <ChatList :chatlist="chatlist" v-if="chatid == ''" />
-    <ChatContent :chatcontent="chatcontent" v-if="chatid != ''" />
-    <NewChat v-if="chatid != ''" />
+    <ChatList
+      :chatlist="chatlist"
+      v-if="chatid == ''"
+      @update="updateChatId"
+      @AllChatList="updateAllChatList"
+      @createChat="createChat"
+    />
+    <ChatContent v-if="chatid != ''" />
+    <NewChat v-if="chatid != ''" @sentchat="sentchat" @sentpic="sentpic" />
   </div>
 </template>
 
@@ -13,37 +20,78 @@
 import ChatList from '@/components/ChatList'
 import ChatContent from '@/components/ChatContent'
 import NewChat from '@/components/NewChat'
+import NavBar from '@/components/NavBar'
 
-import { onMounted, onBeforeUnmount, computed } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
+import SocketIO from 'socket.io-client'
 
 export default {
   components: {
     ChatList,
     ChatContent,
     NewChat,
+    NavBar,
   },
   setup() {
     const store = useStore()
-    let timeid = null
+    const socket = new SocketIO('http://localhost:3000')
 
-    onMounted(() => {
-      timeid = setInterval(() => {
-        store.dispatch('chat/updateChatList')
-        if (store.state.chat.chatid != '')
-          store.dispatch('chat/updateChatContent')
-        else store.dispatch('chat/clearChatContent')
-      }, 100)
+    socket.on('allMessage', function (message) {
+      console.log(message)
+      store.dispatch('chat/updateChatContent', message)
+    })
+    socket.on('newMessage', function (message) {
+      console.log(message)
+      store.dispatch('chat/addChatContent', message)
+    })
+    socket.on('AllChatList', function (message) {
+      store.dispatch('chat/updateAllChatList', message)
     })
 
-    onBeforeUnmount(() => {
-      clearInterval(timeid)
+    onMounted(() => {
+      store.dispatch('chat/updateChatList')
     })
 
     return {
       chatid: computed(() => store.state.chat.chatid),
       chatlist: computed(() => store.state.chat.chatlist),
-      chatcontent: computed(() => store.state.chat.chatcontent),
+      sentchat: (newchat) => {
+        socket.emit('sentMessage', {
+          room: store.state.chat.chatid,
+          message: {
+            name: 'selika',
+            content: newchat,
+          },
+        })
+      },
+      sentpic: (pic) => {
+        socket.emit('sentMessage', {
+          room: store.state.chat.chatid,
+          message: {
+            name: 'selika',
+            pic: pic,
+          },
+        })
+      },
+      updateChatId: (chatid) => {
+        if (chatid != '') {
+          socket.emit('join', { room: chatid })
+        } else {
+          socket.emit('leave', { room: store.state.chat.chatid })
+        }
+        store.dispatch('chat/updateChatId', chatid)
+        store.dispatch('chat/updateChatList')
+      },
+      updateAllChatList: () => {
+        socket.emit('AllChatList')
+      },
+      createChat: (chatname) => {
+        socket.emit('createChat', { chatname: chatname })
+        socket.emit('join', { room: chatname })
+        store.dispatch('chat/updateChatId', chatname)
+        store.dispatch('chat/updateChatList')
+      },
     }
   },
 }

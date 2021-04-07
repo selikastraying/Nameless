@@ -1,6 +1,6 @@
 <template>
   <div
-    class="navbar navbar-expand navbar-light panel mx-auto border-bottom"
+    class="navbar navbar-expand navbar-light panel mx-auto border-bottom w-100"
     style="height: 8%; max-width: 1000px"
   >
     <a
@@ -53,7 +53,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
 export default {
-  setup() {
+  setup(props, { emit }) {
     const store = useStore()
     const router = useRouter()
 
@@ -63,7 +63,7 @@ export default {
         router.push('/')
       },
       toList: () => {
-        store.dispatch('chat/updateChatId', '')
+        emit('update', '')
         store.dispatch('chat/clearAllChatList')
       },
       chatid: computed(() => store.state.chat.chatid),

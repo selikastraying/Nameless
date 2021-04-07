@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column-reverse px-3 overflow-auto noscrollbar">
-    <div class="my-3" v-for="chat in reversechatcontent" :key="chat.id">
+    <div class="my-3" v-for="(chat, index) in reversechatcontent" :key="index">
       <div class="d-flex justify-content-end" v-if="chat.name == name">
         <div>
           <p class="border rounded-pill p-2 bg-light" v-if="!chat.pic">
@@ -40,17 +40,14 @@ import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
-  props: {
-    chatcontent: {
-      type: Object,
-    },
-  },
-  setup(props) {
+  setup() {
     const store = useStore()
-    const baseURL = 'http://18.183.223.127:3000/img/'
+    const baseURL = 'http://192.168.0.12:3000/img/'
     return {
       baseURL,
-      reversechatcontent: computed(() => props.chatcontent.slice().reverse()),
+      reversechatcontent: computed(() =>
+        store.state.chat.chatcontent.slice().reverse()
+      ),
       name: computed(() => store.state.chat.name),
     }
   },
